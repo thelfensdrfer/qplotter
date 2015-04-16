@@ -1,0 +1,3 @@
+# QPlotter
+
+Funktionsplotter in Qt
