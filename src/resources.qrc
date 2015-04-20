@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/style">
+        <file alias="general.css">style/general.css</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file alias="icon.svg">image/icon.svg</file>
+    </qresource>
+</RCC>
