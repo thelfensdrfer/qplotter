@@ -9,6 +9,8 @@ PlotWidget::PlotWidget(QWidget *parent): QWidget(parent)
     qDebug() << "Creating new PlotWidget";
 
     this->_plotter = new Plotter;
+
+    this->_isAntialiased = true;
 }
 
 PlotWidget::~PlotWidget()
@@ -38,5 +40,8 @@ void PlotWidget::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
 
     QPainter p(this);
+    p.setRenderHints(QPainter::Antialiasing, this->_isAntialiased);
+    p.setRenderHint(QPainter::TextAntialiasing, this->_isAntialiased);
+
     this->_plotter->draw(this, &p);
 }

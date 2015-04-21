@@ -7,15 +7,37 @@
 class Point
 {
 public:
+    /**
+     * Erstellt einen neuen Punkt mit x/y-Koordinaten und einer optionalen Beschreibung.
+     *
+     * @param x
+     * @param y
+     * @param description
+     */
     Point(double x, double y, QString description = ""):
         _x(x),
         _y(y),
         _description(description) {}
 
+    /**
+     * Gibt den x-Wert zurück.
+     *
+     * @return
+     */
     double x() const;
 
+    /**
+     * Gibt den y-Wert zurück.
+     *
+     * @return
+     */
     double y() const;
 
+    /**
+     * Gibt die Beschreibung des Punktes zurück.
+     *
+     * @return
+     */
     QString description() const;
 
 private:

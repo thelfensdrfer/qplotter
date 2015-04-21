@@ -9,7 +9,7 @@ class MathJs
 {
 public:
     /**
-     * Funktionen
+     * Mathematische Funktionen die von QScriptEngine aufgerufen werden.
      */
 
     static QScriptValue sin(QScriptContext *context, QScriptEngine *engine);
@@ -30,7 +30,7 @@ public:
     static QScriptValue fabs(QScriptContext *context, QScriptEngine *engine);
 
     /**
-     * Konstanten
+     * Mathematische Konstanten die in QScriptEngine eingefügt werden.
      */
 
     static const double PI;

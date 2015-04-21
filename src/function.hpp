@@ -34,14 +34,34 @@ public:
      *
      * @return QList<Point>
      */
-    QList<Point> points();
+    QList<Point> points() const;
 
+    /**
+     * Gibt den minimalen x-Wert zurück.
+     *
+     * @return
+     */
     double xMin() const;
 
+    /**
+     * Gibt den maximalen x-Wert zurück.
+     *
+     * @return
+     */
     double xMax() const;
 
+    /**
+     * Gibt den minimalen y-Wert zurück.
+     *
+     * @return
+     */
     double yMin() const;
 
+    /**
+     * Gibt den maximalen y-Wert zurück.
+     *
+     * @return
+     */
     double yMax() const;
 
     /**
@@ -49,13 +69,34 @@ public:
      */
     void calculate();
 
+    /**
+     * Setzt die x-Achsen Skalierung.
+     *
+     * @param scaleX
+     */
     void setScaleX(int scaleX);
 
+    /**
+     * Setzt die y-Achsen Skalierung.
+     *
+     * @param scaleY
+     */
     void setScaleY(int scaleY);
 
 protected:
+    /**
+     * Erstellt die QScriptEngine mit mathematischen Funktionen und Konstanten.
+     *
+     * @return
+     */
     QScriptEngine *createEngine();
 
+    /**
+     * Skaliert die Koordinaten x und y auf die entsprechenden Pixel.
+     * @param x
+     * @param y
+     * @return
+     */
     QPointF scaleF(double x, double y) const;
 
 private:
@@ -94,8 +135,14 @@ private:
      */
     QColor _color;
 
+    /**
+     * x-Skalierung der Einheiten.
+     */
     int _scaleX;
 
+    /**
+     * y-Skalierung der Einheiten.
+     */
     int _scaleY;
 };
 

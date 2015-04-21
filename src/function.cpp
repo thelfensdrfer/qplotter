@@ -50,17 +50,22 @@ void Function::draw(QPainter *painter)
             continue;
         }
 
+        // Zeichne von der letzten zu der aktuellen Position
         f.lineTo(this->scaleF(point.x(), point.y()));
     }
 
+    // Setze Zeicheneigenschaften des Pfads
     QBrush functionBrush;
-    functionBrush.setColor(this->_color);
+    functionBrush.setStyle(Qt::NoBrush);
 
     painter->setBrush(functionBrush);
+    painter->setPen(this->_color);
+
+    // Zeichne Pfad
     painter->drawPath(f);
 }
 
-QList<Point> Function::points()
+QList<Point> Function::points() const
 {
     return this->_points;
 }

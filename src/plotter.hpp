@@ -14,9 +14,37 @@ class Plotter: public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * Erstellt einen neuen Plotter
+     *
+     * @param parent
+     */
     explicit Plotter(QObject *parent = 0);
     ~Plotter();
 
+    /**
+     * Standard für den kleinsten darzustellenden x-Wert.
+     */
+    static const int DEFAULT_X_MIN = -10;
+
+    /**
+     * Standard für den größten darzustellenden x-Wert.
+     */
+    static const int DEFAULT_X_MAX = 10;
+
+    /**
+     * Standard für den kleinsten darzustellenden y-Wert.
+     */
+    static const int DEFAULT_Y_MIN = -10;
+
+    /**
+     * Standard für den größten darzustellenden y-Wert.
+     */
+    static const int DEFAULT_Y_MAX = 10;
+
+    /**
+     * Anzahl an dargestellten Zahlen pro Achse
+     */
     static const int STEPS = 20;
 
     /**
@@ -120,9 +148,24 @@ private:
      */
     void drawText(int x, int y, QString text, QPainter *painter);
 
+    /**
+     * Kleinster darzustellender x-Wert.
+     */
     double _xMin;
+
+    /**
+     * Größter darzustellender x-Wert.
+     */
     double _xMax;
+
+    /**
+     * Kleinster darzustellender y-Wert.
+     */
     double _yMin;
+
+    /**
+     * Größter darzustellender y-Wert.
+     */
     double _yMax;
 };
 

@@ -8,10 +8,10 @@ Plotter::Plotter(QObject *parent): QObject(parent)
 {
     qDebug() << "Creating new Plotter";
 
-    this->_xMin = -10;
-    this->_xMax = 10;
-    this->_yMin = -10;
-    this->_yMax = 10;
+    this->_xMin = Plotter::DEFAULT_X_MIN;
+    this->_xMax = Plotter::DEFAULT_X_MAX;
+    this->_yMin = Plotter::DEFAULT_Y_MIN;
+    this->_yMax = Plotter::DEFAULT_Y_MAX;
 }
 
 Plotter::~Plotter()
@@ -29,29 +29,7 @@ void Plotter::addFunction(QString f)
 {
     qDebug() << "Add function" << f << "to plotter";
 
-    if (this->_functions.count() == 0) {
-        this->_xMin = DBL_MAX;
-        this->_xMax = -DBL_MAX;
-        this->_yMin = DBL_MAX;
-        this->_yMax = -DBL_MAX;
-    }
-
-    Function *func = new Function(f);
-
-    // Berechne kleinste und größte x/y-Werte
-    if (func->xMin() < this->_xMin)
-        this->_xMin = func->xMin();
-
-    if (func->xMax() > this->_xMax)
-        this->_xMax = func->xMax();
-
-    if (func->yMin() < this->_yMin)
-        this->_yMin = func->yMin();
-
-    if (func->yMax() > this->_yMax)
-        this->_yMax = func->yMax();
-
-    this->_functions.append(func);
+    this->_functions.append(new Function(f));
 }
 
 void Plotter::draw(QWidget *widget, QPainter *painter)
@@ -172,8 +150,8 @@ void Plotter::calculateScaling(QWidget *widget, QPainter *painter)
         this->_scaleX = (this->_xMax - this->_xMin);
         this->_scaleY = (this->_yMax - this->_yMin);
     } else {
-        this->_scaleX = 20;
-        this->_scaleY = 20;
+        this->_scaleX = (Plotter::DEFAULT_X_MAX - Plotter::DEFAULT_X_MIN);
+        this->_scaleY = (Plotter::DEFAULT_Y_MAX - Plotter::DEFAULT_Y_MIN);
     }
 
     painter->translate(widget->width() / 2, widget->height() / 2);
