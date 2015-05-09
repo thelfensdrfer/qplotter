@@ -146,7 +146,7 @@ private:
      * @param text
      * @param painter
      */
-    void drawText(int x, int y, QString text, QPainter *painter);
+    void drawText(QPoint p, QString text, QPainter *painter);
 
     /**
      * Kleinster darzustellender x-Wert.

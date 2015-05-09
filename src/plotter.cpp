@@ -99,13 +99,23 @@ void Plotter::drawXAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
     painter->setBrush(*axesBrush);
     painter->drawLine(xAxis);
 
+    double deltaIntercept = (double) (this->_xMax - this->_xMin) / (double) Plotter::STEPS;
+
     // Zeichne Achsen-Einteilung
-    for (int x = left.x(); x <= right.x(); x += this->_scaleX) {
+    for (double x = this->_xMin; x <= this->_xMax; x += deltaIntercept) {
         // Zeichne x-Achsen Abschnitte
+        QPoint interceptStart = this->scale(x, 0);
+        interceptStart.setY(-5);
+        QPoint interceptEnd = this->scale(x, 0);
+        interceptEnd.setY(5);
         painter->setBrush(*axesBrush);
-        painter->drawLine(x, -5, x, 5);
+        painter->drawLine(interceptStart, interceptEnd);
+
+        // Zeichne Beschriftung
+        QPoint labelPos = this->scale(x, 0);
+        labelPos.setY(-15);
         painter->setBrush(*labelBrush);
-        this->drawText(x, -15, QString::number(x / this->_scaleX), painter);
+        this->drawText(labelPos, QString::number(x, 'f', 1), painter);
     }
 }
 
@@ -125,21 +135,31 @@ void Plotter::drawYAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
     painter->setBrush(*axesBrush);
     painter->drawLine(yAxis);
 
+    double deltaIntercept = (double) (this->_yMax - this->_yMin) / (double) Plotter::STEPS;
+
     // Zeichne Achsen-Einteilung
-    for (int y = top.y(); y <= bottom.y(); y += this->_scaleY) {
+    for (int y = this->_yMin; y <= this->_yMax; y += deltaIntercept) {
         // Nullpunkt wurde schon für x-Achse gezeichnet
         if (y == 0)
             continue;
 
         // Zeichne y-Achsen Abschnitte
+        QPoint interceptStart = this->scale(0, y);
+        interceptStart.setX(-5);
+        QPoint interceptEnd = this->scale(0, y);
+        interceptEnd.setX(5);
         painter->setBrush(*axesBrush);
-        painter->drawLine(-5, y, 5, y);
+        painter->drawLine(interceptStart, interceptEnd);
+
+        // Zeichne Beschriftung
+        QPoint labelPos = this->scale(0, y);
+        labelPos.setX(-15);
         painter->setBrush(*labelBrush);
-        this->drawText(15, y, QString::number(y / this->_scaleY), painter);
+        this->drawText(labelPos, QString::number(y, 'f', 1), painter);
     }
 }
 
-void Plotter::drawText(int x, int y, QString text, QPainter *painter)
+void Plotter::drawText(QPoint p, QString text, QPainter *painter)
 {
     // Speichert die aktuelle Skalierung
     painter->save();
@@ -149,7 +169,8 @@ void Plotter::drawText(int x, int y, QString text, QPainter *painter)
     painter->scale(1, -1);
 
     // Zeichne Text vertikal gespiegelt (durch invertierte y-Achse)
-    painter->drawText(x, y * -1, text);
+    p.setY(p.y() * -1);
+    painter->drawText(p, text);
 
     // Stellt ursprüngliche Skalierung wieder her
     painter->restore();
