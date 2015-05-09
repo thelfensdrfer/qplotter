@@ -43,7 +43,7 @@ public:
     static const int DEFAULT_Y_MAX = 10;
 
     /**
-     * Anzahl an dargestellten Zahlen pro Achse
+     * Anzahl an dargestellten Zahlen pro Achse (Zoom?)
      */
     static const int STEPS = 20;
 

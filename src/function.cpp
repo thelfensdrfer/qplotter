@@ -162,14 +162,10 @@ void Function::calculate()
     delete engine;
 }
 
-void Function::setScaleY(int scaleY)
-{
-    this->_scaleY = scaleY;
-}
-
-void Function::setScaleX(int scaleX)
+void Function::setScale(int scaleX, int scaleY)
 {
     this->_scaleX = scaleX;
+    this->_scaleY = scaleY;
 }
 
 QPointF Function::scaleF(double x, double y) const
