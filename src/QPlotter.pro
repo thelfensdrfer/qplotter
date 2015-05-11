@@ -4,6 +4,7 @@ QT += core gui widgets script
 TARGET = QPlotter
 TEMPLATE = app
 CONFIG += c++11
+QMAKE_MAC_SDK = macosx10.10
 
 
 SOURCES += \
