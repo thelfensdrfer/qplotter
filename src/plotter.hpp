@@ -43,7 +43,7 @@ public:
     static const int DEFAULT_Y_MAX = 10;
 
     /**
-     * Anzahl an dargestellten Zahlen pro Achse
+     * Anzahl an dargestellten Zahlen pro Achse (Zoom?)
      */
     static const int STEPS = 20;
 
@@ -146,7 +146,7 @@ private:
      * @param text
      * @param painter
      */
-    void drawText(int x, int y, QString text, QPainter *painter);
+    void drawText(QPoint p, QString text, QPainter *painter);
 
     /**
      * Kleinster darzustellender x-Wert.

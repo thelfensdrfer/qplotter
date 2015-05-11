@@ -70,18 +70,11 @@ public:
     void calculate();
 
     /**
-     * Setzt die x-Achsen Skalierung.
+     * Setzt die Achsen Skalierung.
      *
      * @param scaleX
      */
-    void setScaleX(int scaleX);
-
-    /**
-     * Setzt die y-Achsen Skalierung.
-     *
-     * @param scaleY
-     */
-    void setScaleY(int scaleY);
+    void setScale(int scaleX, int scaleY);
 
 protected:
     /**
