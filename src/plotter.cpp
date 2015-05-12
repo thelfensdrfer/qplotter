@@ -153,7 +153,7 @@ void Plotter::drawYAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
 
         // Zeichne Beschriftung
         QPoint labelPos = this->scale(0, y);
-        labelPos.setX(-15);
+        labelPos.setX(-30);
         painter->setBrush(*labelBrush);
         this->drawText(labelPos, QString::number(y, 'f', 1), painter);
     }
