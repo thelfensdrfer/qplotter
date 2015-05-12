@@ -92,6 +92,23 @@
         </layout>
        </item>
        <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="deleteOldFunctions">
+           <property name="text">
+            <string>Vorherige Funktionen löschen</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QListWidget" name="historyList">
          <property name="font">
           <font>
@@ -147,7 +164,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QTableWidget" name="variableTable">
+        <widget class="QTableWidget" name="functionOverview">
          <property name="font">
           <font>
            <family>Courier New</family>
@@ -161,12 +178,12 @@
          </attribute>
          <column>
           <property name="text">
-           <string>Variable</string>
+           <string>Funktion</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Wert</string>
+           <string>Farbe</string>
           </property>
          </column>
         </widget>
@@ -182,7 +199,7 @@
      <x>0</x>
      <y>0</y>
      <width>1121</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -20,13 +20,16 @@ PlotWidget::~PlotWidget()
     qDebug() << "Destroying PlotWidget";
 }
 
-void PlotWidget::addFunction(QString f)
+void PlotWidget::addFunction(QString f, bool deleteOld)
 {
     // TODO: Prüfen ob mehrere Funktionen geplottet werden sollen => sonst erst löschen
-    if (this->_plotter != NULL)
+    if (deleteOld) {
         delete this->_plotter;
+        this->_plotter = NULL;
+    }
 
-    this->_plotter = new Plotter;
+    if (this->_plotter == NULL)
+        this->_plotter = new Plotter;
 
     // Funktion zu Plotter hinzufügen
     this->_plotter->addFunction(f);

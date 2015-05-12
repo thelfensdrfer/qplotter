@@ -21,7 +21,7 @@ public:
      *
      * @param f
      */
-    void addFunction(QString f);
+    void addFunction(QString f, bool deleteOld);
 
     /**
      * Wird von Qt aufgerufen wenn das Widget gezeichnet werden soll.
