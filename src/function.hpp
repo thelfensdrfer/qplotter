@@ -17,6 +17,8 @@ public:
     explicit Function(QString f, double min = -10, double max = 10, QObject *parent = 0);
     ~Function();
 
+    static uint FUNCTION_COUNTER;
+
     /**
      * Wie viele Punkte ausgerechnet werden sollen.
      */

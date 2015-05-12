@@ -5,6 +5,8 @@
 
 #include <QtCore/QDebug>
 
+uint Function::FUNCTION_COUNTER = 0;
+
 Function::Function(QString f, double min, double max, QObject *parent):
     QObject(parent),
     _f(f),
@@ -22,7 +24,15 @@ Function::Function(QString f, double min, double max, QObject *parent):
     this->_yMin = DBL_MAX;
     this->_yMax = -DBL_MAX;
 
-    this->_color = QColor(200, 20, 20);
+    // Zufällige Farbe für Graphen bestimmen
+    QList<QColor> colors;
+    colors.append(QColor(200, 20, 20)); // Rot
+    colors.append(QColor(20, 20, 200)); // Blau
+    colors.append(QColor(20, 200, 20)); // Grün
+    colors.append(QColor(200, 200, 20)); // Gelb
+
+    this->_color = colors.at(Function::FUNCTION_COUNTER % colors.size());
+    Function::FUNCTION_COUNTER++;
 
     this->calculate();
 }
