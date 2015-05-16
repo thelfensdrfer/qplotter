@@ -147,6 +147,8 @@ void Function::calculate()
     // Skript-Engine erstellen
     QScriptEngine *engine = this->createEngine();
 
+    qDebug() << "Calculate values for" << this->_f << "from" << this->_xMin << "to" << this->_xMax << "with step width of" << steps;
+
     // Funktionswerte durchlaufen
     for (double x = this->_xMin; x <= this->_xMax; x += steps) {
         // Aktuellen x-Wert der x-Variable zuweisen

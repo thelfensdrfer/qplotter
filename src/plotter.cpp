@@ -29,7 +29,21 @@ void Plotter::addFunction(QString f)
 {
     qDebug() << "Add function" << f << "to plotter";
 
-    this->_functions.append(new Function(f));
+    Function *func = new Function(f);
+    this->_functions.append(func);
+
+    // TODO: y-Achse wird manchmal nicht korrekt dargestellt
+    if (this->_xMin > func->xMin())
+        this->_xMin = func->xMin();
+
+    if (this->_xMax < func->xMax())
+        this->_xMax = func->xMax();
+
+    if (this->_yMin > func->yMin())
+        this->_yMin = func->yMin();
+
+    if (this->_yMax > func->yMax())
+        this->_yMax = func->yMax();
 }
 
 void Plotter::draw(QWidget *widget, QPainter *painter)

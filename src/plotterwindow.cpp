@@ -35,10 +35,6 @@ void PlotterWindow::onPlotFunction()
     // Funktion zur Funktionsübersicht hinzufügen
     if (this->_ui->deleteOldFunctions->isChecked())
         this->_ui->functionOverview->clear();
-
-    /*this->_ui->functionOverview->insertRow(0);
-    this->_ui->functionOverview->item(0, 0)->setText(f);
-    this->_ui->functionOverview->item(0, 1)->setBackgroundColor(QColor("red"));*/
 }
 
 void PlotterWindow::onHistoryRestore(const QModelIndex &index)
