@@ -14,7 +14,8 @@ SOURCES += \
     mathjs.cpp \
     function.cpp \
     plotwidget.cpp \
-    point.cpp
+    point.cpp \
+    messagehandler.cpp
 
 HEADERS += \
     plotter.hpp \
@@ -22,7 +23,8 @@ HEADERS += \
     mathjs.hpp \
     function.hpp \
     point.hpp \
-    plotwidget.hpp
+    plotwidget.hpp \
+    messagehandler.hpp
 
 FORMS += \
     plotterwindow.ui

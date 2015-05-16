@@ -7,11 +7,12 @@
 
 uint Function::FUNCTION_COUNTER = 0;
 
-Function::Function(QString f, double min, double max, QObject *parent):
+Function::Function(QString f, double min, double max, double steps, QObject *parent):
     QObject(parent),
     _f(f),
     _xMin(min),
-    _xMax(max)
+    _xMax(max),
+    _steps(steps)
 {
     qDebug() << "Creating new Function" << this->_f;
 
@@ -116,21 +117,13 @@ void Function::calculate()
     // Punkte löschen falls schon vorhanden
     this->_points.clear();
 
-    // Anzahl an y-Werten zwischen x-Werten berechnen
-    double steps;
-
-    if (this->_xMax - this->_xMin != 0)
-        steps = ((this->_xMax - this->_xMin) / Function::RESOLUTION);
-    else
-        steps = 1;
-
     // Skript-Engine erstellen
     QScriptEngine *engine = this->createEngine();
 
-    qDebug() << "Calculate values for" << this->_f << "from" << this->_xMin << "to" << this->_xMax << "with step width of" << steps;
+    qDebug() << "Calculate values for" << this->_f << "from" << this->_xMin << "to" << this->_xMax << "with step width of" << this->_steps;
 
     // Funktionswerte durchlaufen
-    for (double x = this->_xMin; x <= this->_xMax; x += steps) {
+    for (double x = this->_xMin; x <= this->_xMax; x += this->_steps) {
         // Aktuellen x-Wert der x-Variable zuweisen
         engine->globalObject().setProperty("x", x);
 
@@ -164,8 +157,12 @@ void Function::setBounds(double xMin, double xMax)
 {
     this->_xMin = xMin;
     this->_xMax = xMax;
+}
 
-    this->calculate();
+void Function::setSteps(double steps)
+{
+    qDebug() << "Function: Steps: " << steps;
+    this->_steps = steps;
 }
 
 QPointF Function::scaleF(double x, double y) const

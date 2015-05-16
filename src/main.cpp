@@ -1,3 +1,4 @@
+#include "messagehandler.hpp"
 #include "plotterwindow.hpp"
 
 #include <QtWidgets/QApplication>
@@ -7,7 +8,8 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    qInstallMessageHandler(messageOutput);
+    QApplication app(argc, argv);
 
     // Anwendungsoptionen
     qApp->setApplicationName("QPlotter");
@@ -28,5 +30,5 @@ int main(int argc, char *argv[])
     w.show();
     w.setStyleSheet(css);
 
-    return a.exec();
+    return app.exec();
 }

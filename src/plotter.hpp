@@ -17,30 +17,16 @@ public:
     /**
      * Erstellt einen neuen Plotter
      *
+     * @param zoom
      * @param parent
      */
-    explicit Plotter(QObject *parent = 0);
+    explicit Plotter(QWidget *widget, QObject *parent = 0);
     ~Plotter();
 
     /**
      * Standard für den kleinsten darzustellenden x-Wert.
      */
-    static const int DEFAULT_X_MIN = -10;
-
-    /**
-     * Standard für den größten darzustellenden x-Wert.
-     */
-    static const int DEFAULT_X_MAX = 10;
-
-    /**
-     * Standard für den kleinsten darzustellenden y-Wert.
-     */
-    static const int DEFAULT_Y_MIN = -10;
-
-    /**
-     * Standard für den größten darzustellenden y-Wert.
-     */
-    static const int DEFAULT_Y_MAX = 10;
+    static const int DEFAULT_ZOOM = 20;
 
     /**
      * Anzahl an dargestellten Zahlen pro Achse (Zoom?)
@@ -67,6 +53,13 @@ public:
     void calculateScaling(QWidget *widget, QPainter *painter);
 
     /**
+     * Berechnet die Anzahl an zu berechnenden Punkten pro Einheit bei einer Funktion.
+     *
+     * @param widget
+     */
+    void calculateSteps(QWidget *widget);
+
+    /**
      * Skaliert die x und y-Werte auf die skalierte Einheit.
      *
      * @param x
@@ -76,32 +69,11 @@ public:
     QPoint scale(double x, double y) const;
 
     /**
-     * Setze x-Min Wert.
+     * Setze Zoom Wert.
      *
      * @param value
      */
-    void setXMin(const double value);
-
-    /**
-     * Setze x-Max Wert.
-     *
-     * @param value
-     */
-    void setXMax(const double value);
-
-    /**
-     * Setze y-Min Wert.
-     *
-     * @param value
-     */
-    void setYMin(const double value);
-
-    /**
-     * Setze y-Max Wert.
-     *
-     * @param value
-     */
-    void setYMax(const double value);
+    void setZoom(const double value);
 
 protected:
     /**
@@ -187,23 +159,15 @@ private:
      */
     double _yMax;
 
-signals:
     /**
-     * Wird ausgelöst wenn sich die Achseneinteilung geändert hat.
-     *
-     * @param xMin
-     * @param xMax
+     * Zoom Wert.
      */
-    void boundsChanged(double xMin, double xMax);
+    double _zoom;
 
-private slots:
     /**
-     * Berechnet die Funktionswerte für den Wertebereich neu.
-     *
-     * @param xMin
-     * @param xMax
+     * Anzahl an zu berechnenden Punkten pro Einheit bei einer Funktion.
      */
-    void onBoundsChanged(double xMin, double xMax);
+    double _steps;
 };
 
 #endif // PLOTTER_H

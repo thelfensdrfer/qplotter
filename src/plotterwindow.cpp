@@ -14,10 +14,7 @@ PlotterWindow::PlotterWindow(QWidget *parent):
     // Einstellungen
     connect(this->_ui->plotButton, &QPushButton::pressed, this, &PlotterWindow::onPlotFunction);
     connect(this->_ui->functionInput, &QLineEdit::returnPressed, this, &PlotterWindow::onPlotFunction);
-    connect(this->_ui->xMinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onXMinChange);
-    connect(this->_ui->xMaxBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onXMaxChange);
-    connect(this->_ui->yMinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onYMinChange);
-    connect(this->_ui->yMaxBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onYMaxChange);
+    connect(this->_ui->zoomBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onZoomChange);
 
     // Historie
     connect(this->_ui->historyList, &QListWidget::doubleClicked, this, &PlotterWindow::onHistoryRestore);
@@ -39,8 +36,17 @@ void PlotterWindow::onPlotFunction()
     this->_ui->historyList->insertItem(0, f);
 
     // Funktion zur Funktionsübersicht hinzufügen
-    if (this->_ui->deleteOldFunctions->isChecked())
-        this->_ui->functionOverview->clear();
+    if (this->_ui->deleteOldFunctions->isChecked()) {
+        while (this->_ui->functionOverview->rowCount() > 0) {
+            this->_ui->functionOverview->removeRow(0);
+        }
+    }
+
+    int newIndex = this->_ui->functionOverview->rowCount();
+
+    this->_ui->functionOverview->insertRow(newIndex);
+    QTableWidgetItem *functionItem = new QTableWidgetItem(f);
+    this->_ui->functionOverview->setItem(newIndex, 0, functionItem);
 }
 
 void PlotterWindow::onHistoryRestore(const QModelIndex &index)
@@ -52,22 +58,10 @@ void PlotterWindow::onHistoryRestore(const QModelIndex &index)
     this->_ui->functionInput->setText(f);
 }
 
-void PlotterWindow::onXMinChange(const double value)
+void PlotterWindow::onZoomChange(const double value)
 {
-    this->_ui->plotCanvas->setXMin(value);
-}
+    qDebug() << "Set zoom to" << value;
 
-void PlotterWindow::onXMaxChange(const double value)
-{
-    this->_ui->plotCanvas->setXMin(value);
-}
-
-void PlotterWindow::onYMinChange(const double value)
-{
-    this->_ui->plotCanvas->setYMin(value);
-}
-
-void PlotterWindow::onYMaxChange(const double value)
-{
-    this->_ui->plotCanvas->setYMin(value);
+    this->_ui->plotCanvas->setZoom(value);
+    this->repaint();
 }

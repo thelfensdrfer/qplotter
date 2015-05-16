@@ -31,32 +31,11 @@ public:
     void paintEvent(QPaintEvent *event);
 
     /**
-     * Setze x-Min Wert.
+     * Setze Zoom Wert.
      *
      * @param value
      */
-    void setXMin(const double value);
-
-    /**
-     * Setze x-Max Wert.
-     *
-     * @param value
-     */
-    void setXMax(const double value);
-
-    /**
-     * Setze y-Min Wert.
-     *
-     * @param value
-     */
-    void setYMin(const double value);
-
-    /**
-     * Setze y-Max Wert.
-     *
-     * @param value
-     */
-    void setYMax(const double value);
+    void setZoom(const double value);
 
 private:
     /**
@@ -68,6 +47,11 @@ private:
      * Ob Antialiasing aktiviert ist.
      */
     bool _isAntialiased;
+
+    /**
+     * Zoom-Wert.
+     */
+    double _zoom;
 };
 
 #endif // PLOTWIDGET_H

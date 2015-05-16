@@ -96,93 +96,40 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>x-Min</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>x-Max</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <widget class="QCheckBox" name="deleteOldFunctions">
            <property name="text">
-            <string>Vorherige Funktionen löschen</string>
+            <string/>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_3">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>y-Min</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>y-Max</string>
+            <string>Zoom</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="xMinBox">
+          <widget class="QDoubleSpinBox" name="zoomBox">
            <property name="minimum">
-            <double>-9999.000000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>9999.000000000000000</double>
+            <double>1000.000000000000000</double>
            </property>
            <property name="value">
-            <double>-10.000000000000000</double>
+            <double>20.000000000000000</double>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="xMaxBox">
-           <property name="minimum">
-            <double>-9999.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>9999.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QDoubleSpinBox" name="yMinBox">
-           <property name="minimum">
-            <double>-9999.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>9999.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>-10.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QDoubleSpinBox" name="yMaxBox">
-           <property name="minimum">
-            <double>-9999.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>9999.000000000000000</double>
-           </property>
-           <property name="value">
-            <double>10.000000000000000</double>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Vorherige Funktionen löschen</string>
            </property>
           </widget>
          </item>
@@ -261,11 +208,6 @@
            <string>Funktion</string>
           </property>
          </column>
-         <column>
-          <property name="text">
-           <string>Farbe</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>
@@ -279,7 +221,7 @@
      <x>0</x>
      <y>0</y>
      <width>1121</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

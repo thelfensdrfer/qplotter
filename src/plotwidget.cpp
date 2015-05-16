@@ -8,7 +8,8 @@ PlotWidget::PlotWidget(QWidget *parent): QWidget(parent)
 {
     qDebug() << "Creating new PlotWidget";
 
-    this->_plotter = new Plotter;
+    this->_plotter = new Plotter(this);
+    this->_zoom = 20;
 
     this->_isAntialiased = true;
 }
@@ -29,7 +30,9 @@ void PlotWidget::addFunction(QString f, bool deleteOld)
     }
 
     if (this->_plotter == NULL)
-        this->_plotter = new Plotter;
+        this->_plotter = new Plotter(this);
+
+    this->_plotter->setZoom(this->_zoom);
 
     // Funktion zu Plotter hinzufügen
     this->_plotter->addFunction(f);
@@ -49,22 +52,8 @@ void PlotWidget::paintEvent(QPaintEvent *event)
     this->_plotter->draw(this, &p);
 }
 
-void PlotWidget::setXMin(const double value)
+void PlotWidget::setZoom(const double value)
 {
-    this->_plotter->setXMin(value);
-}
-
-void PlotWidget::setXMax(const double value)
-{
-    this->_plotter->setXMax(value);
-}
-
-void PlotWidget::setYMin(const double value)
-{
-    this->_plotter->setYMin(value);
-}
-
-void PlotWidget::setYMax(const double value)
-{
-    this->_plotter->setYMax(value);
+    this->_zoom = value;
+    this->_plotter->setZoom(this->_zoom);
 }

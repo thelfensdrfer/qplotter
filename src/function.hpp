@@ -14,7 +14,7 @@ class Function: public QObject
 {
     Q_OBJECT
 public:
-    explicit Function(QString f, double min = -10, double max = 10, QObject *parent = 0);
+    explicit Function(QString f, double min, double max, double steps, QObject *parent = 0);
     ~Function();
 
     static uint FUNCTION_COUNTER;
@@ -57,6 +57,13 @@ public:
      * @param xMax
      */
     void setBounds(double xMin, double xMax);
+
+    /**
+     * Setzt die Anzahl der Schritte pro Einheit.
+     *
+     * @param steps
+     */
+    void setSteps(double steps);
 
 protected:
     /**
@@ -119,6 +126,11 @@ private:
      * y-Skalierung der Einheiten.
      */
     int _scaleY;
+
+    /**
+     * Wie viele Werte pro Einheit berechnet werden sollen.
+     */
+    double _steps;
 };
 
 #endif // FUNCTION_H

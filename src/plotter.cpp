@@ -4,16 +4,12 @@
 
 #include <QtCore/QDebug>
 
-Plotter::Plotter(QObject *parent): QObject(parent)
+Plotter::Plotter(QWidget *widget, QObject *parent): QObject(parent)
 {
     qDebug() << "Creating new Plotter";
 
-    this->_xMin = Plotter::DEFAULT_X_MIN;
-    this->_xMax = Plotter::DEFAULT_X_MAX;
-    this->_yMin = Plotter::DEFAULT_Y_MIN;
-    this->_yMax = Plotter::DEFAULT_Y_MAX;
-
-    connect(this, &Plotter::boundsChanged, this, &Plotter::onBoundsChanged);
+    this->setZoom(Plotter::DEFAULT_ZOOM);
+    this->calculateSteps(widget);
 }
 
 Plotter::~Plotter()
@@ -29,9 +25,9 @@ Plotter::~Plotter()
 
 void Plotter::addFunction(QString f)
 {
-    qDebug() << "Add function" << f << "to plotter";
+    qDebug() << "Add function" << f << "to plotter" << this->_steps;
 
-    Function *func = new Function(f, this->_xMin, this->_xMax);
+    Function *func = new Function(f, this->_xMin, this->_xMax, this->_steps);
     this->_functions.append(func);
 }
 
@@ -49,6 +45,9 @@ void Plotter::draw(QWidget *widget, QPainter *painter)
 
     // Skalierung
     this->calculateScaling(widget, painter);
+
+    // Schrittweite
+    this->calculateSteps(widget);
 
     // Zeichne Achsen
     QBrush axesBrush;
@@ -76,34 +75,29 @@ QPoint Plotter::scale(double x, double y) const
     return QPoint(qRound(this->_scaleX * x), qRound(this->_scaleY * y));
 }
 
-void Plotter::setXMin(const double value)
+void Plotter::setZoom(const double value)
 {
-    this->_xMin = value;
+    if (value <= 0)
+        return;
 
-    emit boundsChanged(this->_xMin, this->_xMax);
-}
+    this->_zoom = value;
 
-void Plotter::setXMax(const double value)
-{
-    this->_xMax = value;
+    qDebug() << "Set zoom to" << this->_zoom;
 
-    emit boundsChanged(this->_xMin, this->_xMax);
-}
+    this->_xMin = this->_zoom / -2;
+    this->_xMax = this->_zoom / 2;
+    this->_yMin = this->_zoom / -2;
+    this->_yMax = this->_zoom / 2;
 
-void Plotter::setYMin(const double value)
-{
-    this->_yMin = value;
-}
-
-void Plotter::setYMax(const double value)
-{
-    this->_yMax = value;
+    for (int i = 0; i < this->_functions.count(); i++) {
+        this->_functions.at(i)->setBounds(this->_xMin, this->_xMax);
+        this->_functions.at(i)->setSteps(this->_steps);
+        this->_functions.at(i)->calculate();
+    }
 }
 
 void Plotter::drawBackground(QWidget *widget, QPainter *painter)
 {
-    qDebug() << "Draw background";
-
     QBrush background;
     background.setStyle(Qt::SolidPattern);
     background.setColor(Qt::white);
@@ -112,8 +106,6 @@ void Plotter::drawBackground(QWidget *widget, QPainter *painter)
 
 void Plotter::drawXAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush)
 {
-    qDebug() << "Draw x Axis";
-
     // Zeichne x-Achse
     QPoint left = this->scale(this->_xMin, 0);
     QPoint right = this->scale(this->_xMax, 0);
@@ -126,7 +118,7 @@ void Plotter::drawXAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
     painter->setBrush(*axesBrush);
     painter->drawLine(xAxis);
 
-    double deltaIntercept = (double) (this->_xMax - this->_xMin) / (double) Plotter::STEPS;
+    double deltaIntercept = this->_zoom / (double) Plotter::STEPS;
 
     // Zeichne Achsen-Einteilung
     for (double x = this->_xMin; x <= this->_xMax; x += deltaIntercept) {
@@ -148,8 +140,6 @@ void Plotter::drawXAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
 
 void Plotter::drawYAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush)
 {
-    qDebug() << "Draw y Axis";
-
     // Zeichne y-Achse
     QPoint top = this->scale(0, this->_yMin);
     QPoint bottom = this->scale(0, this->_yMax);
@@ -162,10 +152,10 @@ void Plotter::drawYAxis(QPainter *painter, QBrush *axesBrush, QBrush *labelBrush
     painter->setBrush(*axesBrush);
     painter->drawLine(yAxis);
 
-    double deltaIntercept = (double) (this->_yMax - this->_yMin) / (double) Plotter::STEPS;
+    double deltaIntercept = this->_zoom / (double) Plotter::STEPS;
 
     // Zeichne Achsen-Einteilung
-    for (int y = this->_yMin; y <= this->_yMax; y += deltaIntercept) {
+    for (double y = this->_yMin; y <= this->_yMax; y += deltaIntercept) {
         // Nullpunkt wurde schon für x-Achse gezeichnet
         if (y == 0)
             continue;
@@ -206,21 +196,14 @@ void Plotter::drawText(QPoint p, QString text, QPainter *painter)
 void Plotter::calculateScaling(QWidget *widget, QPainter *painter)
 {
     // Berechne Skalierung je nachdem ob bereits Funktionen hinzugefügt wurden
-    if (this->_functions.count() > 0) {
-        this->_scaleX = (widget->width() / 2) / ((this->_xMax - this->_xMin) / 2);
-        this->_scaleY = (widget->height() / 2) / ((this->_yMax - this->_yMin) / 2);
-    } else {
-        this->_scaleX = (widget->width() / 2) / ((Plotter::DEFAULT_X_MAX - Plotter::DEFAULT_X_MIN) / 2);
-        this->_scaleY = (widget->height() / 2) / ((Plotter::DEFAULT_Y_MAX - Plotter::DEFAULT_Y_MIN) / 2);
-    }
+    this->_scaleX = (widget->width() / 2) / (this->_zoom / 2);
+    this->_scaleY = (widget->height() / 2) / (this->_zoom / 2);
 
     painter->translate(widget->width() / 2, widget->height() / 2);
     painter->scale(1, -1);
 }
 
-void Plotter::onBoundsChanged(double xMin, double xMax)
+void Plotter::calculateSteps(QWidget *widget)
 {
-    for (int i = 0; i < this->_functions.count(); i++) {
-        this->_functions.at(i)->setBounds(xMin, xMax);
-    }
+    this->_steps = 1.0 / (double) widget->width() * this->_zoom;
 }
