@@ -28,6 +28,26 @@ private slots:
      * Eine Funktion soll aus der Historie geladen werden.
      */
     void onHistoryRestore(const QModelIndex &index);
+
+    /**
+     * x-Min Wert wurde geändert.
+     */
+    void onXMinChange(const double value);
+
+    /**
+     * x-Max Wert wurde geändert.
+     */
+    void onXMaxChange(const double value);
+
+    /**
+     * y-Min Wert wurde geändert.
+     */
+    void onYMinChange(const double value);
+
+    /**
+     * y-Max Wert wurde geändert.
+     */
+    void onYMaxChange(const double value);
 };
 
 #endif // PLOTTERWINDOW_H

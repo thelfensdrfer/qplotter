@@ -11,9 +11,15 @@ PlotterWindow::PlotterWindow(QWidget *parent):
 
     this->_ui->setupUi(this);
 
+    // Einstellungen
     connect(this->_ui->plotButton, &QPushButton::pressed, this, &PlotterWindow::onPlotFunction);
     connect(this->_ui->functionInput, &QLineEdit::returnPressed, this, &PlotterWindow::onPlotFunction);
+    connect(this->_ui->xMinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onXMinChange);
+    connect(this->_ui->xMaxBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onXMaxChange);
+    connect(this->_ui->yMinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onYMinChange);
+    connect(this->_ui->yMaxBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PlotterWindow::onYMaxChange);
 
+    // Historie
     connect(this->_ui->historyList, &QListWidget::doubleClicked, this, &PlotterWindow::onHistoryRestore);
 }
 
@@ -44,4 +50,24 @@ void PlotterWindow::onHistoryRestore(const QModelIndex &index)
 
     QString f = this->_ui->historyList->item(index.row())->text();
     this->_ui->functionInput->setText(f);
+}
+
+void PlotterWindow::onXMinChange(const double value)
+{
+    this->_ui->plotCanvas->setXMin(value);
+}
+
+void PlotterWindow::onXMaxChange(const double value)
+{
+    this->_ui->plotCanvas->setXMin(value);
+}
+
+void PlotterWindow::onYMinChange(const double value)
+{
+    this->_ui->plotCanvas->setYMin(value);
+}
+
+void PlotterWindow::onYMaxChange(const double value)
+{
+    this->_ui->plotCanvas->setYMin(value);
 }

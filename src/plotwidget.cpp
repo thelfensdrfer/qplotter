@@ -48,3 +48,23 @@ void PlotWidget::paintEvent(QPaintEvent *event)
 
     this->_plotter->draw(this, &p);
 }
+
+void PlotWidget::setXMin(const double value)
+{
+    this->_plotter->setXMin(value);
+}
+
+void PlotWidget::setXMax(const double value)
+{
+    this->_plotter->setXMax(value);
+}
+
+void PlotWidget::setYMin(const double value)
+{
+    this->_plotter->setYMin(value);
+}
+
+void PlotWidget::setYMax(const double value)
+{
+    this->_plotter->setYMax(value);
+}

@@ -80,26 +80,6 @@ QList<Point> Function::points() const
     return this->_points;
 }
 
-double Function::xMin() const
-{
-    return this->_xMin;
-}
-
-double Function::xMax() const
-{
-    return this->_xMax;
-}
-
-double Function::yMin() const
-{
-    return this->_yMin;
-}
-
-double Function::yMax() const
-{
-    return this->_yMax;
-}
-
 QScriptEngine *Function::createEngine()
 {
     QScriptEngine *engine = new QScriptEngine;
@@ -178,6 +158,14 @@ void Function::setScale(int scaleX, int scaleY)
 {
     this->_scaleX = scaleX;
     this->_scaleY = scaleY;
+}
+
+void Function::setBounds(double xMin, double xMax)
+{
+    this->_xMin = xMin;
+    this->_xMax = xMax;
+
+    this->calculate();
 }
 
 QPointF Function::scaleF(double x, double y) const

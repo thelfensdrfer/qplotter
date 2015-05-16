@@ -12,6 +12,8 @@ Plotter::Plotter(QObject *parent): QObject(parent)
     this->_xMax = Plotter::DEFAULT_X_MAX;
     this->_yMin = Plotter::DEFAULT_Y_MIN;
     this->_yMax = Plotter::DEFAULT_Y_MAX;
+
+    connect(this, &Plotter::boundsChanged, this, &Plotter::onBoundsChanged);
 }
 
 Plotter::~Plotter()
@@ -29,21 +31,8 @@ void Plotter::addFunction(QString f)
 {
     qDebug() << "Add function" << f << "to plotter";
 
-    Function *func = new Function(f);
+    Function *func = new Function(f, this->_xMin, this->_xMax);
     this->_functions.append(func);
-
-    // TODO: y-Achse wird manchmal nicht korrekt dargestellt
-    if (this->_xMin > func->xMin())
-        this->_xMin = func->xMin();
-
-    if (this->_xMax < func->xMax())
-        this->_xMax = func->xMax();
-
-    if (this->_yMin > func->yMin())
-        this->_yMin = func->yMin();
-
-    if (this->_yMax > func->yMax())
-        this->_yMax = func->yMax();
 }
 
 void Plotter::draw(QWidget *widget, QPainter *painter)
@@ -85,6 +74,30 @@ void Plotter::draw(QWidget *widget, QPainter *painter)
 QPoint Plotter::scale(double x, double y) const
 {
     return QPoint(qRound(this->_scaleX * x), qRound(this->_scaleY * y));
+}
+
+void Plotter::setXMin(const double value)
+{
+    this->_xMin = value;
+
+    emit boundsChanged(this->_xMin, this->_xMax);
+}
+
+void Plotter::setXMax(const double value)
+{
+    this->_xMax = value;
+
+    emit boundsChanged(this->_xMin, this->_xMax);
+}
+
+void Plotter::setYMin(const double value)
+{
+    this->_yMin = value;
+}
+
+void Plotter::setYMax(const double value)
+{
+    this->_yMax = value;
 }
 
 void Plotter::drawBackground(QWidget *widget, QPainter *painter)
@@ -203,4 +216,11 @@ void Plotter::calculateScaling(QWidget *widget, QPainter *painter)
 
     painter->translate(widget->width() / 2, widget->height() / 2);
     painter->scale(1, -1);
+}
+
+void Plotter::onBoundsChanged(double xMin, double xMax)
+{
+    for (int i = 0; i < this->_functions.count(); i++) {
+        this->_functions.at(i)->setBounds(xMin, xMax);
+    }
 }

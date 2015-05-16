@@ -39,34 +39,6 @@ public:
     QList<Point> points() const;
 
     /**
-     * Gibt den minimalen x-Wert zurück.
-     *
-     * @return
-     */
-    double xMin() const;
-
-    /**
-     * Gibt den maximalen x-Wert zurück.
-     *
-     * @return
-     */
-    double xMax() const;
-
-    /**
-     * Gibt den minimalen y-Wert zurück.
-     *
-     * @return
-     */
-    double yMin() const;
-
-    /**
-     * Gibt den maximalen y-Wert zurück.
-     *
-     * @return
-     */
-    double yMax() const;
-
-    /**
      * Berechne Punkte die später dargestellt werden sollen.
      */
     void calculate();
@@ -77,6 +49,14 @@ public:
      * @param scaleX
      */
     void setScale(int scaleX, int scaleY);
+
+    /**
+     * Ändert den Wertebereich der Funktion.
+     *
+     * @param xMin
+     * @param xMax
+     */
+    void setBounds(double xMin, double xMax);
 
 protected:
     /**

@@ -76,13 +76,32 @@ public:
     QPoint scale(double x, double y) const;
 
     /**
-     * Skaliert die x und y-Werte auf die skalierte Einheit.
+     * Setze x-Min Wert.
      *
-     * @param x
-     * @param y
-     * @return
+     * @param value
      */
-    QPointF scaleF(double x, double y) const;
+    void setXMin(const double value);
+
+    /**
+     * Setze x-Max Wert.
+     *
+     * @param value
+     */
+    void setXMax(const double value);
+
+    /**
+     * Setze y-Min Wert.
+     *
+     * @param value
+     */
+    void setYMin(const double value);
+
+    /**
+     * Setze y-Max Wert.
+     *
+     * @param value
+     */
+    void setYMax(const double value);
 
 protected:
     /**
@@ -167,6 +186,24 @@ private:
      * Größter darzustellender y-Wert.
      */
     double _yMax;
+
+signals:
+    /**
+     * Wird ausgelöst wenn sich die Achseneinteilung geändert hat.
+     *
+     * @param xMin
+     * @param xMax
+     */
+    void boundsChanged(double xMin, double xMax);
+
+private slots:
+    /**
+     * Berechnet die Funktionswerte für den Wertebereich neu.
+     *
+     * @param xMin
+     * @param xMax
+     */
+    void onBoundsChanged(double xMin, double xMax);
 };
 
 #endif // PLOTTER_H
